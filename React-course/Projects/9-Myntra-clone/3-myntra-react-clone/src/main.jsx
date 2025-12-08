@@ -1,24 +1,27 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import App from './App.jsx'
+import App from './routes/App.jsx'
 import { createBrowserRouter , RouterProvider } from "react-router-dom";
+import Bag from './routes/bag.jsx';
+import Home from './routes/home.jsx';
+import { Provider } from 'react-redux';
+import MyntraStore from './store/index.js';
 
 const Router = createBrowserRouter([
   {
     path : "/",
     element : <App />,
-    hydrateFallbackElement: <LoadingSpinner />,
     children:[
-      {path : "/", element : <PostList /> , loader : PostLoader},
-      {path : "/create-Post", element : <CreatePost /> , action: CreatePostAction },
+      {path : "/", element : <Home /> },
+      {path : "/bag", element : <Bag />}
     ]
   },
 ]);
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router = { Router } />
-  </StrictMode>,
+    <Provider store = {MyntraStore} > 
+      <RouterProvider router = { Router } />
+    </Provider>
 )
